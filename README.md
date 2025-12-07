@@ -3,7 +3,8 @@
 > **Marketplace de Hardware Seguro con Estética Cyberpunk & Detección de Fraude.**
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Status](https://img.shields.io/badge/status-MVP-yellow.svg)
+![Status](https://img.shields.io/badge/status-MVP%20Complete-green.svg)
+[![Live Demo](https://img.shields.io/badge/demo-vercel-black?logo=vercel)](https://pc-store-2-0.vercel.app/)
 ![Stack](https://img.shields.io/badge/stack-Next.js_14_|_Supabase_|_Tailwind-000000.svg)
 
 GhostWire MX es una plataforma de comercio electrónico diseñada específicamente para el mercado de hardware de segunda mano en México. Se enfoca en resolver los problemas de confianza mediante **Contratos Digitales**, **Servicios de Escrow** y **Detección de Fraude con IA**.
@@ -13,18 +14,23 @@ GhostWire MX es una plataforma de comercio electrónico diseñada específicamen
 ### 🛡️ Seguridad & Anti-Fraude
 -   **Análisis EXIF en Cliente**: Detecta automáticamente si las fotos de los productos son antiguas (>1 año) o si carecen de metadatos originales, previniendo el uso de imágenes falsas.
 -   **Prueba de Vida (Timestamp)**: Obliga a los vendedores a subir una foto con su nombre de usuario y fecha actual.
--   **Contratos Digitales**: Generación dinámica de contratos de compraventa basados en el **Código Civil Federal** (Artículo 2142) con cláusulas de vicios ocultos.
+-   **Marca de Agua Automática**: Aplica un sello "GHOSTWIRE PROTECTED" + Fecha a todas las imágenes subidas usando Canvas API.
+-   **Chat Seguro con DLP**: Previene fugas de datos sensibles (teléfonos/emails) mediante Regex en tiempo real.
+
+### 💰 Comercio Seguro (Escrow)
+-   **Contratos Digitales**: Generación dinámica basada en el **Código Civil Federal** (Artículo 2142) con cláusulas de vicios ocultos y garantía de 30 días.
+-   **Flujo de Dinero Transparente**: Diagrama visual que muestra el estado de los fondos (`Comprador` -> `Custodia` -> `Vendedor`).
+-   **Bloqueo de Fondos**: Animación y lógica que simula la retención segura del dinero hasta la confirmación de entrega.
+
+### 👤 Perfil y Reputación
+-   **Sistema de Niveles**: Barra de progreso gamificada basada en transacciones exitosas.
+-   **Verificación KYC**: Simulación de carga de documentos de identidad (INE/Pasaporte).
+-   **Historial**: Tabs organizados para Compras y Ventas.
 
 ### 🎨 Experiencia de Usuario (UX)
 -   **Estética Cyberpunk Minimalista**: Interfaz oscura de alto contraste (`#000000` background) con acentos en *"Trench Yellow"* (`#FCE300`).
--   **Tipografía Técnica**: Uso de `Inter` para legibilidad y `Space Mono` para datos numéricos y técnicos.
+-   **Formularios Inteligentes**: Validación estricta con **Zod** y campos dinámicos (ej. pide 'VRAM' si vendes GPU, 'Socket' si vendes CPU).
 -   **Feedback Inmediato**: Validaciones en tiempo real y estados de carga animados.
-
-### 🏗️ Arquitectura Técnica
--   **Framework**: Next.js 14 (App Router) con TypeScript estricto.
--   **Estilos**: Tailwind CSS v3 + `tailwindcss-animate`.
--   **Base de Datos**: Supabase (PostgreSQL) con Políticas RLS (Row Level Security) para aislamiento de datos.
--   **Seguridad**: Headers HTTP estrictos (CSP, HSTS) configurados en `next.config.ts`.
 
 ---
 
@@ -32,7 +38,7 @@ GhostWire MX es una plataforma de comercio electrónico diseñada específicamen
 
 ### Prerrequisitos
 -   Node.js 18+
--   Cuenta en Supabase (para configurar variables de entorno reales, aunque el MVP funciona con mocks en frontend).
+-   Cuenta en Supabase (Proyecto: `qyzzmsqglianlcsrltww`).
 
 ### Pasos
 1.  **Clonar el repositorio**:
@@ -47,17 +53,17 @@ GhostWire MX es una plataforma de comercio electrónico diseñada específicamen
     ```
 
 3.  **Configurar Variables de Entorno**:
-    Crea un archivo `.env.local` basado en `.env.example`:
+    Asegúrate de tener el archivo `.env.local` con tus credenciales de Supabase:
     ```env
-    NEXT_PUBLIC_SUPABASE_URL=tu_url_supabase
-    NEXT_PUBLIC_SUPABASE_ANON_KEY=tu_anon_key
+    NEXT_PUBLIC_SUPABASE_URL=https://qyzzmsqglianlcsrltww.supabase.co
+    NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1Ni...
     ```
 
 4.  **Ejecutar servidor de desarrollo**:
     ```bash
     npm run dev
     ```
-    Abre `http://localhost:3000` en tu navegador.
+    Abre `http://localhost:3000` (o 3001) en tu navegador.
 
 ---
 
@@ -66,15 +72,21 @@ GhostWire MX es una plataforma de comercio electrónico diseñada específicamen
 ```
 src/
 ├── app/                    # Next.js App Router
-│   ├── checkout/[id]/      # Página de Pago + Contrato
-│   ├── new-listing/        # Formulario de Venta + Anti-Fraude
+│   ├── chat-demo/          # Demo del Chat Seguro (DLP)
+│   ├── checkout/[id]/      # Página de Pago + Contrato Escrow
+│   ├── new-listing/        # Formulario Avanzado (Zod + Fraud Detection)
+│   ├── order-status/[id]/  # Diagrama de Flujo de Fondos
+│   ├── profile/            # Perfil de Usuario + KYC
 │   ├── layout.tsx          # Root Layout (Fuentes, CSS)
 │   └── page.tsx            # Landing Page
 ├── components/
+│   ├── chat/               # SecureChatBox (Realtime + DLP)
 │   ├── layout/             # Navbar, Footer
-│   ├── legal/              # Componentes Legales (Contrato)
+│   ├── legal/              # Componentes Legales (DigitalContract)
+│   ├── listing/            # CreateListingForm (Hook Form)
 │   ├── product/            # Tarjetas de Producto, Grillas
-│   └── ui/                 # Sistema de Diseño (Button, Input, Card...)
+│   ├── profile/            # UserProfile, ReputationBar
+│   └── ui/                 # Sistema de Diseño (Radix UI + Tailwind)
 ├── lib/
 │   ├── services/           # Lógica de Negocio (FraudDetectionService)
 │   ├── supabase/           # Cliente Supabase Singleton
@@ -84,10 +96,10 @@ src/
 
 ## 🔒 Detalles de Seguridad (OWASP)
 
-1.  **Broken Access Control**: Mitigado mediante **PostgreSQL RLS** (Row Level Security). Los usuarios solo pueden editar sus propios listados/perfiles.
+1.  **Broken Access Control**: Mitigado mediante **PostgreSQL RLS** (Row Level Security).
 2.  **Injection**: Uso del cliente ORM de Supabase previene inyecciones SQL directas.
-3.  **Security Misconfiguration**: Strict Mode de TypeScript activado y Headers de seguridad (X-Frame-Options, X-Content-Type-Options) forzados.
-4.  **Vulnerable Components**: Dependencias mínimas y auditadas regularmente.
+3.  **Data Loss Prevention (DLP)**: Regex en cliente previene compartir información de contacto fuera del sistema Escrow.
+4.  **Security Misconfiguration**: Strict Mode de TypeScript activado y Headers de seguridad.
 
 ---
 
@@ -95,7 +107,7 @@ src/
 Este proyecto incluye una simulación de **Contrato de Compraventa Mercantil**.
 -   **Jurisdicción**: Ciudad de México.
 -   **Garantía**: 30 días por vicios ocultos (falla del hardware no reportada).
--   **Validez**: El contrato se "firma" digitalmente mediante una interacción de usuario que genera un Hash único en el cliente.
+-   **Validez**: El contrato se "firma" digitalmente mediante interacción y Hash criptográfico.
 
 ---
 

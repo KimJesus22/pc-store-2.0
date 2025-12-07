@@ -84,6 +84,12 @@ export default function Home() {
                 VENDER HARDWARE
               </Button>
             </Link>
+            <Link href="/chat-demo">
+              <Button size="lg" className="bg-red-600/20 border border-red-500 text-red-200 hover:bg-red-600/40 font-bold rounded-none h-12 flex items-center gap-2">
+                <ShieldCheck size={18} />
+                DEMO CHAT SEGURO
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

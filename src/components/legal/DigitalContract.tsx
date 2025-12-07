@@ -12,7 +12,6 @@ interface DigitalContractProps {
     serialNumber: string;
     price: number;
     date: Date;
-    onAccept: () => void;
 }
 
 export function DigitalContract({
@@ -22,7 +21,6 @@ export function DigitalContract({
     serialNumber,
     price,
     date,
-    onAccept
 }: DigitalContractProps) {
     const formattedPrice = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' }).format(price);
     const formattedDate = date.toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' });
@@ -78,17 +76,6 @@ export function DigitalContract({
                         </p>
                     </div>
 
-                    <div className="pt-8 border-t border-white/10 flex flex-col items-center justify-center gap-4">
-                        <p className="text-xs text-gray-500 text-center">
-                            Al hacer clic en "ACEPTAR Y PAGAR", ambas partes firman digitalmente este acuerdo bajo criptografía asimétrica.
-                        </p>
-                        <button
-                            onClick={onAccept}
-                            className="bg-trench text-black font-bold py-3 px-8 hover:bg-yellow-400 transition-all uppercase tracking-widest w-full md:w-auto"
-                        >
-                            Aceptar y Pagar {formattedPrice}
-                        </button>
-                    </div>
                 </div>
             </CardContent>
         </Card>
