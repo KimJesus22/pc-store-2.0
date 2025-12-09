@@ -7,6 +7,7 @@ import { Search, ShoppingCart, User, Cpu } from "lucide-react";
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Database } from "../../../types/database.types";
+import { NotificationCenter } from "@/components/ui/NotificationCenter";
 
 type Profile = Database['public']['Tables']['profiles']['Row'];
 
@@ -64,22 +65,27 @@ export function Navbar() {
                     <div className="h-6 w-px bg-white/10 hidden sm:block"></div>
 
                     {profile ? (
-                        <Link href="/profile">
-                            <Button variant="ghost" className="text-white hover:text-trench hover:bg-white/10 flex items-center gap-2">
-                                <span className="text-sm font-bold truncate max-w-[100px] hidden md:block">
-                                    {profile.username || 'USUARIO'}
-                                </span>
-                                <div className="h-8 w-8 rounded bg-zinc-800 overflow-hidden border border-zinc-700">
-                                    {profile.avatar_url ? (
-                                        <img src={profile.avatar_url} alt="Avatar" className="h-full w-full object-cover" />
-                                    ) : (
-                                        <div className="h-full w-full flex items-center justify-center bg-trench text-black font-bold">
-                                            {profile.username?.[0]?.toUpperCase() || 'U'}
-                                        </div>
-                                    )}
-                                </div>
-                            </Button>
-                        </Link>
+                        <div className="flex items-center gap-4">
+                            {/* Notification Center */}
+                            <NotificationCenter />
+
+                            <Link href="/profile">
+                                <Button variant="ghost" className="text-white hover:text-trench hover:bg-white/10 flex items-center gap-2">
+                                    <span className="text-sm font-bold truncate max-w-[100px] hidden md:block">
+                                        {profile.username || 'USUARIO'}
+                                    </span>
+                                    <div className="h-8 w-8 rounded bg-zinc-800 overflow-hidden border border-zinc-700">
+                                        {profile.avatar_url ? (
+                                            <img src={profile.avatar_url} alt="Avatar" className="h-full w-full object-cover" />
+                                        ) : (
+                                            <div className="h-full w-full flex items-center justify-center bg-trench text-black font-bold">
+                                                {profile.username?.[0]?.toUpperCase() || 'U'}
+                                            </div>
+                                        )}
+                                    </div>
+                                </Button>
+                            </Link>
+                        </div>
                     ) : (
                         <Link href="/login">
                             <Button variant="default" size="sm" className="bg-trench text-black hover:bg-yellow-400 font-bold rounded-none">

@@ -1,152 +1,80 @@
 import Link from "next/link";
-import { Navbar } from "@/components/layout/Navbar";
-import { ProductCard } from "@/components/product/ProductCard";
+import { ArrowRight, ShieldCheck, Zap, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Database } from "../../types/database.types";
-import { ShieldCheck, Truck, Lock } from "lucide-react";
-
-// MOCK DATA for MVP display
-const MOCK_LISTINGS: Array<Partial<Database["public"]["Tables"]["listings"]["Row"]> & { seller: { username: string; is_verified_seller: boolean } }> = [
-  {
-    id: "1",
-    title: "NVIDIA GeForce RTX 4090 Rog Strix White OC",
-    price: 38500,
-    condition: "USED",
-    images: ["https://placehold.co/600x600/000000/FCE300/png?text=RTX+4090+White"],
-    status: "ACTIVE",
-    seller: { username: "CyberMerchant", is_verified_seller: true }
-  },
-  {
-    id: "2",
-    title: "AMD Ryzen 9 7950X3D (Nuevo Sellado)",
-    price: 11200,
-    condition: "NEW",
-    images: ["https://placehold.co/600x600/0f172a/white/png?text=Ryzen+9+7950X3D"],
-    status: "ACTIVE",
-    seller: { username: "HardwareStoreMX", is_verified_seller: true }
-  },
-  {
-    id: "3",
-    title: "Monitor Alienware AW3423DWF OLED",
-    price: 18000,
-    condition: "USED",
-    images: ["https://placehold.co/600x600/000000/FCE300/png?text=Alienware+OLED"],
-    status: "ACTIVE",
-    seller: { username: "GamerCasual", is_verified_seller: false }
-  },
-  {
-    id: "4",
-    title: "Custom Loop Distro Plate O11 Dynamic",
-    price: 3500,
-    condition: "USED",
-    images: ["https://placehold.co/600x600/0f172a/white/png?text=Distro+Plate"],
-    status: "ACTIVE",
-    seller: { username: "ModderPro", is_verified_seller: true }
-  }
-];
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background flex flex-col">
-      <Navbar />
+    <div className="min-h-screen bg-black text-white selection:bg-yellow-500 selection:text-black overflow-hidden relative">
+      {/* Background Grid Effect */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f1f1f_1px,transparent_1px),linear-gradient(to_bottom,#1f1f1f_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-20"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-[50vh] bg-gradient-to-t from-[#FCE300]/5 to-transparent blur-3xl opacity-30"></div>
+      </div>
 
-      {/* HERO SECTION */}
-      <section className="relative w-full py-24 md:py-32 overflow-hidden border-b border-white/10">
-        <div className="absolute inset-0 bg-grid-pattern opacity-10 pointer-events-none"></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-trench/10 blur-[120px] rounded-full pointer-events-none"></div>
+      <main className="relative z-10 container mx-auto px-6 pt-32 pb-16 min-h-[90vh] flex flex-col justify-center items-center text-center">
+        {/* Badge */}
+        <div className="mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+          <span className="px-4 py-1.5 rounded-full border border-zinc-800 bg-zinc-900/50 text-zinc-400 text-xs font-mono tracking-widest uppercase backdrop-blur-md">
+            v2.0 Beta Live
+          </span>
+        </div>
 
-        <div className="container relative mx-auto px-4 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-trench/30 bg-trench/5 text-trench text-xs font-mono mb-6">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-trench opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-trench"></span>
-            </span>
-            SYSTEM.STATUS: ONLINE
+        {/* Headline */}
+        <h1 className="text-5xl md:text-8xl font-black tracking-tighter mb-6 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-100 max-w-5xl mx-auto leading-[0.9]">
+          COMPRA HARDWARE. <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-200 via-zinc-400 to-zinc-600">SIN ESTAFAS.</span> <br />
+          <span className="text-[#FCE300]">SIN MIEDO.</span>
+        </h1>
+
+        {/* Subtitle */}
+        <p className="text-zinc-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed animate-in fade-in slide-in-from-bottom-8 duration-700 delay-200">
+          El primer marketplace en México con{" "}
+          <span className="text-white font-bold">Escrow Digital</span> y{" "}
+          <span className="text-white font-bold">Validación de Identidad</span>.
+          Tu dinero no se libera hasta que confirmas que el hardware funciona.
+        </p>
+
+        {/* CTAs */}
+        <div className="flex flex-col sm:flex-row gap-4 items-center animate-in fade-in slide-in-from-bottom-8 duration-700 delay-300 w-full justify-center">
+          <Link href="/new-listing" className="w-full sm:w-auto">
+            <Button className="w-full sm:w-auto px-8 py-6 text-lg font-bold bg-[#FCE300] text-black hover:bg-[#E6CF00] hover:scale-105 transition-all rounded-none skew-x-[-10deg]">
+              <span className="skew-x-[10deg] flex items-center gap-2">
+                <Zap className="fill-black" size={20} /> VENDER HARDWARE
+              </span>
+            </Button>
+          </Link>
+
+          <Link href="/search" className="w-full sm:w-auto">
+            <Button variant="outline" className="w-full sm:w-auto px-8 py-6 text-lg font-bold border-zinc-700 text-white hover:bg-white/10 hover:border-white transition-all rounded-none skew-x-[-10deg]">
+              <span className="skew-x-[10deg] flex items-center gap-2">
+                EXPLORAR OFERTAS <ArrowRight size={20} />
+              </span>
+            </Button>
+          </Link>
+        </div>
+
+        {/* Trust Indicators */}
+        <div className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-16 text-zinc-600 animate-in fade-in duration-1000 delay-500 opacity-50 grayscale hover:grayscale-0 transition-all">
+          {/* Simple Text Logos acting as placeholders/brands */}
+          <div className="flex items-center justify-center gap-2 font-black text-2xl tracking-tighter">
+            <ShieldCheck size={32} />
+            <span>SECURE</span>
           </div>
-
-          <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-white mb-6">
-            COMPRA Y VENDE <span className="text-trench">HARDWARE</span><br />
-            SIN RIESGOS EN MÉXICO
-          </h1>
-
-          <p className="text-gray-400 max-w-2xl mx-auto mb-8 text-lg">
-            El primer marketplace con servicio Escrow especializado en componentes de PC de alto rendimiento. Verificamos cada transacción.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="#listings">
-              <Button size="lg" className="bg-trench text-black hover:bg-yellow-400 font-bold rounded-none px-8 text-base h-12">
-                VER LISTADOS
-              </Button>
-            </Link>
-            <Link href="/new-listing">
-              <Button size="lg" variant="outline" className="text-white border-white/20 hover:bg-white/5 rounded-none h-12">
-                VENDER HARDWARE
-              </Button>
-            </Link>
-            <Link href="/chat-demo">
-              <Button size="lg" className="bg-red-600/20 border border-red-500 text-red-200 hover:bg-red-600/40 font-bold rounded-none h-12 flex items-center gap-2">
-                <ShieldCheck size={18} />
-                DEMO CHAT SEGURO
-              </Button>
-            </Link>
+          <div className="flex items-center justify-center gap-2 font-black text-2xl tracking-tighter">
+            <Lock size={32} />
+            <span>ESCROW</span>
+          </div>
+          <div className="flex items-center justify-center font-black text-2xl tracking-tighter uppercase">
+            NVIDIA
+          </div>
+          <div className="flex items-center justify-center font-black text-2xl tracking-tighter uppercase">
+            AMD
           </div>
         </div>
-      </section>
+      </main>
 
-      {/* VALUE PROPS */}
-      <section className="border-b border-white/10 bg-slate-900/50 py-12">
-        <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="flex flex-col items-center text-center p-4">
-            <div className="p-3 bg-trench/10 rounded mb-4">
-              <ShieldCheck className="text-trench h-8 w-8" />
-            </div>
-            <h3 className="text-white font-bold mb-2">Pagos Protegidos</h3>
-            <p className="text-gray-400 text-sm">Tu dinero se libera al vendedor hasta que recibes y verificas el producto.</p>
-          </div>
-          <div className="flex flex-col items-center text-center p-4">
-            <div className="p-3 bg-blue-500/10 rounded mb-4">
-              <Truck className="text-blue-400 h-8 w-8" />
-            </div>
-            <h3 className="text-white font-bold mb-2">Envíos Seguros</h3>
-            <p className="text-gray-400 text-sm">Guías de envío generadas automáticamente con seguro incluido.</p>
-          </div>
-          <div className="flex flex-col items-center text-center p-4">
-            <div className="p-3 bg-purple-500/10 rounded mb-4">
-              <Lock className="text-purple-400 h-8 w-8" />
-            </div>
-            <h3 className="text-white font-bold mb-2">Anti-Fraude</h3>
-            <p className="text-gray-400 text-sm">Verificación de identidad de vendedores y sistema de reputación inmutable.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* FEATURED PRODUCTS */}
-      <section className="py-20 flex-1">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between mb-8 border-l-4 border-trench pl-4">
-            <h2 className="text-3xl font-bold text-white tracking-tight">
-              DESTACADOS
-            </h2>
-            <Link href="/browse" className="text-trench text-sm font-mono hover:underline">
-                    // VER_TODO
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {MOCK_LISTINGS.map((listing) => (
-              <div key={listing.id} className="h-full">
-                <ProductCard listing={listing} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FOOTER SIMPLE */}
-      <footer className="py-8 border-t border-white/10 bg-black text-center text-gray-600 text-sm font-mono">
-        <p>GHOSTWIRE_MX SYSTEM © 2025. ALL RIGHTS RESERVED.</p>
-      </footer>
-    </main>
+      {/* Decorative Floor */}
+      <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#FCE300]/50 to-transparent"></div>
+    </div>
   );
 }

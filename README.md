@@ -3,40 +3,44 @@
 > **Marketplace de Hardware Seguro con Estética Cyberpunk & Detección de Fraude.**
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Status](https://img.shields.io/badge/status-Beta-yellow.svg)
+![Status](https://img.shields.io/badge/status-MVP%20Complete-green.svg)
 [![Live Demo](https://img.shields.io/badge/demo-vercel-black?logo=vercel)](https://pc-store-2-0.vercel.app/)
-![Stack](https://img.shields.io/badge/stack-Next.js_15_|_Supabase_|_Tailwind_|_Recharts-000000.svg)
+![Stack](https://img.shields.io/badge/stack-Next.js_15_|_Supabase_|_Tailwind_|_Vitest-000000.svg)
 
 GhostWire MX moderniza la compra-venta de hardware usado en México. Combinamos seguridad bancaria (Escrow), contratos legales automáticos y una estética premium para gamers y entusiastas.
 
-## ✨ Nuevas Características (v2.0)
+## ✨ Nuevas Características (v2.0 Final)
+
+### 🎨 Landing Page Cyberpunk
+- **Hero Section**: Malla de perspectiva neón (CSS puro) con tipografía agresiva.
+- **Micro-interacciones**: Botones con skew y efectos hover fluidos.
+
+### 📜 Contratos Digitales (`jspdf`)
+- **Generación Automática**: Al completar una compra, se descarga un PDF legal.
+- **Validez Legal**: Cláusulas de compraventa y firmas simuladas.
+- **Seguridad**: Hash de transacción indeleble al pie de página.
+- **Easter Egg**: Referencias ocultas a *Breach Protocol*.
+
+### 💸 Servicio de Escrow (`EscrowService.ts`)
+- **Bloqueo de Fondos**: El dinero no va al vendedor hasta confirmar entrega.
+- **Protección**: Lógica blindada contra liberaciones prematuras.
+- **Reembolso**: Flujo automático en caso de disputa ganada por el comprador.
+
+### 🔔 Centro de Notificaciones
+- **Realtime**: Alertas instantáneas en la barra de navegación (Supabase Channels).
+- **Tipos**: Seguridad (Rojo), Dinero (Amarillo), Sistema (Azul).
 
 ### 🕵️‍♂️ Admin Dashboard ("The Watchtower")
-Panel exclusivo para administradores (`/admin/dashboard`):
--   **Resolución de Disputas**: Interfaz para arbitrar conflictos entre usuarios.
--   **The Killcam**: Herramienta comparativa de evidencia (Foto del Listing vs Foto de la Disputa).
--   **Audit Logs**: Registro inmutable de todas las acciones administrativas.
+- **Resolución de Disputas**: Interfaz para arbitrar conflictos con "Killcam" de evidencia.
+- **Audit Logs**: Registro inmutable de acciones.
 
-### 📊 Dashboard Financiero
-Centro de mando para usuarios (`/profile` -> Finanzas):
--   **KPIs en Tiempo Real**: Visualiza tus Ingresos Totales, Fondos en Escrow y Gastos.
--   **Gráfico de Rendimiento**: Línea de tendencia de ventas mensuales (impulsado por `recharts`).
--   **Historial de Movimientos**: Estado de cuenta unificado de compras y ventas.
-
-### 🔍 Búsqueda Avanzada (`/search`)
-Motor de exploración optimizado:
--   **Filtros en Tiempo Real**: Categoría (GPU, CPU...), Condición (Nuevo/Usado) y Precio.
--   **Búsqueda Inteligente**: Input con *Debounce* para no saturar la red.
--   **Empty States**: Animaciones Pixel-Art cuando no hay resultados.
-
-### 🛡️ Seguridad Hardened
--   **Middleware de Protección**: Rutas críticas (`/admin`, `/profile`) protegidas en el Edge.
--   **CSP Estricto**: Prevención de XSS mediante Content Security Policy.
--   **Role-Based Access Control (RBAC)**: Distinción nativa entre USER y ADMIN en base de datos.
+### 🔍 Búsqueda y Finanzas
+- **Búsqueda**: Filtros dinámicos, debounce y estados vacíos pixel-art.
+- **Dashboard Financiero**: KPIs, gráficos de ventas (Recharts) y simulador de retiro SPEI.
 
 ---
 
-## 🚀 Instalación y Uso
+## 🛠️ Instalación y Testing
 
 ### Prerrequisitos
 -   Node.js 18+
@@ -58,19 +62,23 @@ Motor de exploración optimizado:
     Crea `.env.local`:
     ```env
     NEXT_PUBLIC_SUPABASE_URL=https://qyzzmsqglianlcsrltww.supabase.co
-    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
+    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_key
     ```
 
-4.  **Configurar Base de Datos**:
-    Ejecuta el script SQL para habilitar categorías en listings:
-    ```sql
-    ALTER TABLE public.listings ADD COLUMN category text DEFAULT 'OTHER';
-    ```
+4.  **Base de Datos**:
+    Ejecuta los scripts de migración en `supabase/migrations/`.
 
 5.  **Ejecutar servidor**:
     ```bash
     npm run dev
     ```
+
+### 🧪 Ejecutar Pruebas
+El proyecto incluye tests unitarios con **Vitest** para la lógica crítica de Escrow.
+```bash
+npm test
+```
+*Cobertura: Mocking de Supabase, Bloqueo de Fondos, Disputas.*
 
 ---
 
@@ -79,29 +87,26 @@ Motor de exploración optimizado:
 ```
 src/
 ├── app/
-│   ├── admin/              # Dashboard de Administración protegido
-│   ├── profile/            # Perfil usuario + Financial Dashboard
-│   ├── search/             # Página de búsqueda con filtros
-│   ├── layout.tsx          # Root Layout & Security Headers
-│   └── middleware.ts       # Edge Middleware (Auth & CSP)
+│   ├── admin/              # Dashboard
+│   ├── profile/            # Finanzas & Settings
+│   ├── search/             # Búsqueda Avanzada
+│   ├── test-contract/      # Demo de Contratos
+│   └── page.tsx            # Landing Page
 ├── components/
-│   ├── admin/              # Componentes de Admin (Killcam, Tables)
-│   ├── listing/            # Tarjetas de Producto
-│   ├── profile/            # Gráficas Financieras
-│   └── ui/                 # Componentes Base (Shadcn-like)
-├── hooks/
-│   └── useDebounce.ts      # Utilidad para búsqueda
-└── lib/
-    └── supabase/           # Clientes (Client & Server)
+│   ├── ui/                 # NotificationCenter, EmptyState
+│   └── ...
+├── lib/
+│   ├── services/           # EscrowService, FraudDetection
+│   └── utils/              # ContractGenerator, cn
+└── middleware.ts           # Seguridad Edge (CSP, Auth)
 ```
 
-## 🔒 Detalles de Seguridad (OWASP Top 10)
+## 🔒 Seguridad (OWASP)
 
-1.  **Broken Access Control**: Mitigado mediante Middleware y RLS en Supabase.
-2.  **Injection**: ORM de Supabase previene SQL Injection.
-3.  **XSS**: Content Security Policy (CSP) estricto.
-4.  **Sensitive Data Exposure**: Manejo de sesiones seguro vía Cookies HttpOnly.
+1.  **Broken Access Control**: RLS, Middleware y RBAC.
+2.  **XSS**: CSP Estricto y sanitización React.
+3.  **Data Integrity**: Contratos HASheados y Logs de Auditoría.
 
 ---
 
-Desarrollado con 💛 y ☕ para la comunidad de Hardware en México.
+Desarrollado con 💛, ☕ y código seguro.

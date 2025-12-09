@@ -180,6 +180,35 @@ export interface Database {
                     created_at?: string
                     updated_at?: string
                 }
+            },
+            notifications: {
+                Row: {
+                    id: string
+                    user_id: string
+                    type: 'SECURITY' | 'ESCROW' | 'SYSTEM'
+                    message: string
+                    link: string | null
+                    read: boolean
+                    created_at: string
+                }
+                Insert: {
+                    id?: string
+                    user_id: string
+                    type: 'SECURITY' | 'ESCROW' | 'SYSTEM'
+                    message: string
+                    link?: string | null
+                    read?: boolean
+                    created_at?: string
+                }
+                Update: {
+                    id?: string
+                    user_id?: string
+                    type?: 'SECURITY' | 'ESCROW' | 'SYSTEM'
+                    message?: string
+                    link?: string | null
+                    read?: boolean
+                    created_at?: string
+                }
             }
         }
     }
